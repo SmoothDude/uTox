@@ -58,6 +58,7 @@ PREFIX ?= /usr/local
 
 SRC = $(wildcard *.c png/png.c)
 OBJ = $(SRC:.c=.o)
+HEADS = $(wildcard *.h png/png.h)
 
 all: utox
 
@@ -109,7 +110,7 @@ install: utox
 
 main.o: xlib/main.c xlib/keysym2ucs.c
 
-.c.o:
+.c.o: $(HEADS)
 	@echo "  CC    $@"
 	@$(CC) $(CFLAGS) -o $@ -c $<
 

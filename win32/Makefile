@@ -7,7 +7,7 @@ LDFLAGS=-s ../lib/openal/lib/libOpenAL32.a ../lib/toxcore/lib/libtoxav.a ../lib/
 
 MINGW32_LIB_DIR=/usr/$(WINDOWS_TOOLCHAIN)/lib
 
-src=$(wildcard ../*.c ../lib/filter_audio/filter_audio.c ../lib/filter_audio/aec/*.c ../lib/filter_audio/agc/*.c ../lib/filter_audio/ns/*.c ../lib/filter_audio/other/*.c ../lib/filter_audio/zam/*.c ../png/png.c )
+src=$(wildcard ../*.c ../lib/filter_audio/filter_audio.c ../lib/filter_audio/aec/*.c ../lib/filter_audio/agc/*.c ../lib/filter_audio/ns/*.c ../lib/filter_audio/other/*.c ../lib/filter_audio/vad/*.c ../lib/filter_audio/zam/*.c ../png/png.c )
 _objs = $(src:.c=.o)
 objs = $(patsubst %,obj/trap/%,$(_objs))
 
@@ -17,24 +17,25 @@ test:
 	echo $(objs)
 
 init:
-	mkdir -p obj/trap
-	mkdir -p obj/png
-	mkdir -p obj/lib/filter_audio
-	mkdir -p obj/lib/filter_audio/aec
-	mkdir -p obj/lib/filter_audio/agc
-	mkdir -p obj/lib/filter_audio/ns
-	mkdir -p obj/lib/filter_audio/other
-	mkdir -p obj/lib/filter_audio/zam
-	mkdir -p result
+	@mkdir -p obj/trap
+	@mkdir -p obj/png
+	@mkdir -p obj/lib/filter_audio
+	@mkdir -p obj/lib/filter_audio/aec
+	@mkdir -p obj/lib/filter_audio/agc
+	@mkdir -p obj/lib/filter_audio/ns
+	@mkdir -p obj/lib/filter_audio/other
+	@mkdir -p obj/lib/filter_audio/zam
+	@mkdir -p obj/lib/filter_audio/vad
+	@mkdir -p result
 icon:
 	$(WINDOWS_TOOLCHAIN)-windres ../icons/icon.rc -O coff -o obj/icon.o
 
 utox.exe: $(objs)
-	@echo "  LINK	$@"
-	@$(WINDOWS_TOOLCHAIN)-gcc $(CFLAGS) -o result/utox.exe $(objs) $(LDFLAGS)
+	@echo "   LINK    $@"
+	@$(WINDOWS_TOOLCHAIN)-gcc $(CFLAGS) -o result/utox.exe $(objs) obj/icon.o $(LDFLAGS)
 
 obj/trap/%.o: %.c
-	@echo "  MINGW	$@"
+	@echo "   MINGW   $@"
 	@$(WINDOWS_TOOLCHAIN)-gcc $(CFLAGS) -o $@ -c $<
 
 clean:
