@@ -27,10 +27,10 @@ endif
 UNAME_S := $(shell uname -s)
 
 CFLAGS += -g0 -Wall -Wshadow -pthread -std=gnu99
-CFLAGS += -Ofast -fdata-sections -ffunction-sections
+CFLAGS += -Ofast -pipe
 CFLAGS += $(shell pkg-config --cflags $(DEPS))
 LDFLAGS = -pthread -lm
-LDFLAGS += -Wl,--gc-sections -s
+LDFLAGS += -s
 LDFLAGS += $(shell pkg-config --libs $(DEPS))
 
 ifneq ($(DBUS), 1)
@@ -117,5 +117,8 @@ main.o: xlib/main.c xlib/keysym2ucs.c
 
 clean:
 	rm -f utox *.o png/*.o
+
+package:
+	fakeroot checkinstall --pkgname utox --pkgversion 1.1.0 --requires 'libtoxcore,libfilteraudio' --nodoc -y --backup=no --install=no
 
 .PHONY: all clean
