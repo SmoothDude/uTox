@@ -118,7 +118,10 @@ main.o: xlib/main.c xlib/keysym2ucs.c
 clean:
 	rm -f utox *.o png/*.o
 
-package:
+package: utox
 	fakeroot checkinstall --pkgname utox --pkgversion 1.1.0 --requires 'libtoxcore,libfilteraudio' --nodoc -y --backup=no --install=no
+
+pkg-install: package
+	sudo dpkg -i utox*.deb
 
 .PHONY: all clean
