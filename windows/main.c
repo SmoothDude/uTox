@@ -1184,7 +1184,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmd, int n
     LPWSTR *arglist;
     int argc, i;
 
-    tox_savename = "tox_save";
     /* Variables for --set */
     int32_t set_show_window = 0;
 

@@ -993,7 +993,6 @@ int main(int argc, char *argv[])
     _Bool theme_was_set_on_argv = 0;
     theme = THEME_DEFAULT;
 
-    tox_savename = "tox_save";
     /* Variables for --set */
     int32_t set_show_window = 0;
 
