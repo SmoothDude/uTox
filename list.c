@@ -26,15 +26,17 @@ static void drawitembox(ITEM *i, int y)
 
 static void drawname(ITEM *i, int y, char_t *name, char_t *msg, STRING_IDX name_length, STRING_IDX msg_length, _Bool color_overide, uint32_t color)
 {
-    if (!color_overide)
+    if (!color_overide) {
         color = (sitem == i) ? COLOR_MAIN_TEXT : COLOR_LIST_TEXT;
+    }
 
     setcolor(color);
     setfont(FONT_LIST_NAME);
     drawtextwidth(LIST_NAME_X, LIST_RIGHT - LIST_NAME_X - SCALE * 16, y + LIST_NAME_Y, name, name_length);
 
-    if (!color_overide)
+    if (!color_overide) {
         color = (sitem == i) ? COLOR_MAIN_SUBTEXT : COLOR_LIST_SUBTEXT;
+    }
 
     setcolor(color);
     setfont(FONT_STATUS);
@@ -588,12 +590,12 @@ static void contextmenu_list_onselect(uint8_t i)
         return;
     }
 
-    if (ritem->item == ITEM_FRIEND && i == 1) {
+    if (ritem->item == ITEM_FRIEND && i == 0) {
         friend_history_clear((FRIEND*)ritem->data);
         return;
     }
 
-    if (ritem->item == ITEM_GROUP && i == 0) {
+    if (ritem->item == ITEM_GROUP && i == 1) {
         GROUPCHAT *g = ritem->data;
         if (g->type == TOX_GROUPCHAT_TYPE_AV) {
             g->muted = !g->muted;
@@ -601,7 +603,7 @@ static void contextmenu_list_onselect(uint8_t i)
         }
     }
 
-    if (ritem->item == ITEM_GROUP && i == 1) {
+    if (ritem->item == ITEM_GROUP && i == 0) {
         GROUPCHAT *g = ritem->data;
         if(ritem != sitem) {
             selectitem(ritem);
@@ -620,10 +622,10 @@ static void contextmenu_list_onselect(uint8_t i)
 
 _Bool list_mright(void *UNUSED(n))
 {
-    static UI_STRING_ID menu_friend[] = {STR_REMOVE_FRIEND, STR_CLEAR_HISTORY};
-    static UI_STRING_ID menu_group_unmuted[] = {STR_MUTE, STR_CHANGE_GROUP_TOPIC, STR_REMOVE_GROUP};
-    static UI_STRING_ID menu_group_muted[] = {STR_UNMUTE, STR_CHANGE_GROUP_TOPIC, STR_REMOVE_GROUP};
-    static UI_STRING_ID menu_group[] = {STR_REMOVE_GROUP, STR_CHANGE_GROUP_TOPIC};
+    static UI_STRING_ID menu_friend[] = {STR_CLEAR_HISTORY, STR_REMOVE_FRIEND};
+    static UI_STRING_ID menu_group_unmuted[] = {STR_CHANGE_GROUP_TOPIC, STR_MUTE, STR_REMOVE_GROUP};
+    static UI_STRING_ID menu_group_muted[] = {STR_CHANGE_GROUP_TOPIC, STR_UNMUTE, STR_REMOVE_GROUP};
+    static UI_STRING_ID menu_group[] = {STR_CHANGE_GROUP_TOPIC, STR_REMOVE_GROUP};
     static UI_STRING_ID menu_request[] = {STR_REQ_ACCEPT, STR_REQ_DECLINE};
 
     if(mitem) {
